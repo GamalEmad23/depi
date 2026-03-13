@@ -1,5 +1,5 @@
+import 'package:depi_03/comments_app/screens/comments_screen.dart';
 import 'package:depi_03/quiz_app/cubit/cubit/quiz_cubit_cubit.dart';
-import 'package:depi_03/users_app/users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => QuizCubit(),
-      child: MaterialApp(debugShowCheckedModeBanner: false, home: UsersScreen()),
+      child: MaterialApp(debugShowCheckedModeBanner: false, home: CommentsScreen()),
     );
   }
 }
