@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable, deprecated_member_use
 
-import 'package:depi_03/quiz_app/cubit/cubit/quiz_cubit_cubit.dart';
-import 'package:depi_03/quiz_app/screen/quiz_result.dart';
+import 'package:depi_03/features/quiz_app/cubit/cubit/quiz_cubit_cubit.dart';
+import 'package:depi_03/features/quiz_app/screen/quiz_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';

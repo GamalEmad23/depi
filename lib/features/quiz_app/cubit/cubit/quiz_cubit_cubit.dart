@@ -1,7 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:bloc/bloc.dart';
-import 'package:depi_03/quiz_app/models/quiz_model.dart';
+import 'package:depi_03/features/quiz_app/models/quiz_model.dart';
 import 'package:meta/meta.dart';
 
 part 'quiz_cubit_state.dart';

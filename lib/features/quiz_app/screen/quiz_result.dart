@@ -1,6 +1,6 @@
-import 'package:depi_03/quiz_app/cubit/cubit/quiz_cubit_cubit.dart';
-import 'package:depi_03/quiz_app/screen/home_screen.dart';
-import 'package:depi_03/quiz_app/screen/quiz_screen.dart';
+import 'package:depi_03/features/quiz_app/cubit/cubit/quiz_cubit_cubit.dart';
+import 'package:depi_03/features/quiz_app/screen/home_screen.dart';
+import 'package:depi_03/features/quiz_app/screen/quiz_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

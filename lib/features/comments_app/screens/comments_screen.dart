@@ -1,9 +1,8 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:depi_03/comments_app/cubit/comments_cubit.dart';
+import 'package:depi_03/features/comments_app/cubit/comments_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class CommentsScreen extends StatelessWidget {
   const CommentsScreen({super.key});

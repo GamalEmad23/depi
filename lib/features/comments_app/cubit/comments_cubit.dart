@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:depi_03/comments_app/models/comment_model.dart';
+import 'package:depi_03/features/comments_app/models/comment_model.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 

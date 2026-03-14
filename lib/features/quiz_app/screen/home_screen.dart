@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:depi_03/quiz_app/screen/quiz_screen.dart';
+import 'package:depi_03/features/quiz_app/screen/quiz_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:depi_03/users_app/users_model.dart';
+import 'package:depi_03/features/users_app/users_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
