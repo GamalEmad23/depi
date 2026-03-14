@@ -8,20 +8,22 @@ part 'comments_state.dart';
 class CommentsCubit extends Cubit<CommentsState> {
   CommentsCubit() : super(CommentsInitial());
 
-  
-  void getComments() async{
+  void getComments() async {
     emit(CommentsLoading());
-    Dio dio= Dio();
 
     try {
-      var res =await dio.get("https://jsonplaceholder.typicode.com/comments");
-      var data = res.data as List;
-      var comments = data.map((e) => CommentModel.fromJson(e),).toList();
+      Dio dio = Dio();
+      Response res = await dio.get(
+        "http://jsonplaceholder.typicode.com/comments",
+        options: Options(
+          headers: {"Accept": "application/json"},
+        ),
+      );
+      List data = res.data;
+      var comments = data.map((e) => CommentModel.fromJson(e)).toList();
       emit(CommentsSuccess(comments: comments));
     } catch (e) {
-       emit(CommentsFailed(message: e.toString()));
+      emit(CommentsFailed(message: e.toString()));
     }
-
-
   }
 }

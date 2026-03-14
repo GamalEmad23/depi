@@ -1,6 +1,9 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:depi_03/comments_app/cubit/comments_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class CommentsScreen extends StatelessWidget {
   const CommentsScreen({super.key});
@@ -12,37 +15,61 @@ class CommentsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.blue,
       appBar: AppBar(
-      backgroundColor: Colors.blue,
+        backgroundColor: Colors.blue,
         title: Text(
           "Comments",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold , color: Colors.white),
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
       ),
 
       ///Body
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return Padding(
-            padding:  EdgeInsets.only(top: h*.025),
-            child: Container(
-              height: h*.2,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 2,
-                    color: Colors.black38,
-                    offset: Offset(2, 8),
-                    spreadRadius: 2 
-                  )
-                ]
-              ),
-            ),
+      body: BlocBuilder<CommentsCubit, CommentsState>(
+        builder: (context, state) {
+          if (state is CommentsLoading) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (state is CommentsSuccess) {
+             return ListView.builder(
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(top: h * .025),
+                child: Container(
+                  height: h * .2,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 2,
+                        color: Colors.black38,
+                        offset: Offset(2, 8),
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    state.comments[index].email ?? " ",
+                  ),
+                ),
+              );
+            },
+            itemCount: 5,
           );
+          }
+
+          if (state is CommentsFailed) {
+            // showDialog(context: context, builder: (context) => AlertDialog(title: Text(state.message),),);
+            return Text(state.message);
+          }
+
+          return SizedBox();
         },
-        itemCount: 5,
       ),
     );
   }
