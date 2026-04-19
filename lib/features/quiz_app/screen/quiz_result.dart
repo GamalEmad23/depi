@@ -10,354 +10,167 @@ class QuizResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<QuizCubit>();
-
     var h = MediaQuery.sizeOf(context).height;
     var w = MediaQuery.sizeOf(context).width;
+    
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF4A00E0), Color(0xFF8E2DE2)],
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+          ),
+        ),
+        child: SafeArea(
+          child: BlocBuilder<QuizCubit, QuizCubitState>(
+            builder: (context, state) {
+              if (state is QuizLoaded) {
+                final int totalQuestions = cubit.data.length;
+                final bool isSuccess = totalQuestions > 0 && cubit.myScore > (totalQuestions / 2);
+                final double percentage = totalQuestions == 0 ? 0 : (cubit.myScore / totalQuestions);
 
-      body: BlocBuilder<QuizCubit, QuizCubitState>(
-        builder: (context, state) {
-          if (state is QuizLoaded) {
-            return cubit.myScore > 5
-                ? Column(
-                    children: [
-                      Center(
-                        child: Container(
-                          height: h * .15,
-                          width: w * .3,
-                          decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(.3),
-                            borderRadius: BorderRadius.circular(50),
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: h * 0.18,
+                      width: h * 0.18,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: (isSuccess ? Colors.greenAccent : Colors.redAccent).withOpacity(0.5),
+                            blurRadius: 30,
+                            spreadRadius: 10,
                           ),
-                          child: Center(
-                            child: Icon(
-                              Icons.workspace_premium,
-                              color: Colors.blue,
-                              size: 40,
-                            ),
-                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Icon(
+                          isSuccess ? Icons.emoji_events_rounded : Icons.sentiment_dissatisfied_rounded,
+                          color: isSuccess ? Colors.amber : Colors.redAccent,
+                          size: 80,
                         ),
                       ),
-
-                      Text(
-                        "Congratulations!",
-                        style: TextStyle(
-                          fontSize: 29,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                    const SizedBox(height: 40),
+                    Text(
+                      isSuccess ? "Awesome Job!" : "Needs Improvement",
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
-                      Text(
-                        "You have mastered this quiz!",
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      isSuccess ? "You mastered this quiz!" : "Keep practicing, you'll get it!",
+                      style: const TextStyle(fontSize: 18, color: Colors.white70),
+                    ),
+                    const SizedBox(height: 50),
+                    Container(
+                      width: w * 0.85,
+                      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(color: Colors.white.withOpacity(0.2), width: 1.5),
                       ),
-                      SizedBox(height: h * .09),
-
-                      Container(
-                        height: h * .2,
-                        width: w * .9,
-
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 20,
-                              color: Colors.black,
-                              offset: Offset(1, 5),
-                              spreadRadius: 1,
-                            ),
-                          ],
-                        ),
-
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: w * .06,
-                            vertical: h * .025,
+                      child: Column(
+                        children: [
+                          const Text(
+                            "Your Final Score",
+                            style: TextStyle(color: Colors.white70, fontSize: 18),
                           ),
-                          child: Column(
-                            crossAxisAlignment: .start,
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
                             children: [
                               Text(
-                                "Your Score",
+                                "${cubit.myScore}",
                                 style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 18,
+                                  color: isSuccess ? Colors.greenAccent : Colors.redAccent,
+                                  fontSize: 48,
+                                  fontWeight: FontWeight.w900,
                                 ),
                               ),
-                              BlocBuilder<QuizCubit, QuizCubitState>(
-                                builder: (context, state) {
-                                  if (state is QuizLoaded) {
-                                    return Text(
-                                      "${state.score} / 10",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    );
-                                  }
-
-                                  return SizedBox();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      //
-                      Padding(
-                        padding: EdgeInsetsGeometry.symmetric(
-                          horizontal: w * .1,
-                          vertical: h * .028,
-                        ),
-                        child: MaterialButton(
-                          height: h * .08,
-                          color: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(15),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) => QuizScreen(),
-                              ),
-                              (route) => false,
-                            );
-                            cubit.resetQuiz();
-                          },
-                          child: Row(
-                            mainAxisAlignment: .center,
-                            children: [
-                              Icon(Icons.repeat, color: Colors.white),
-
                               Text(
-                                "Play Again",
-                                style: TextStyle(
+                                " / $totalQuestions",
+                                style: const TextStyle(
                                   color: Colors.white,
+                                  fontSize: 24,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                          const SizedBox(height: 10),
+                          Text(
+                            "${(percentage * 100).toStringAsFixed(0)}%",
+                            style: const TextStyle(color: Colors.amber, fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-
-                      //
-
-                      //
-                      Padding(
-                        padding: EdgeInsetsGeometry.symmetric(
-                          horizontal: w * .1,
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: w * 0.1),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF4A00E0),
+                          minimumSize: Size(double.infinity, h * 0.07),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          elevation: 5,
                         ),
-                        child: MaterialButton(
-                          height: h * .08,
-                          color: Colors.white,
+                        onPressed: () {
+                          cubit.resetQuiz();
+                          cubit.fetchQuestions(); // ensure data is fresh
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => const QuizScreen()),
+                            (route) => false,
+                          );
+                        },
+                        child: const Text("Play Again", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: w * 0.1),
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          minimumSize: Size(double.infinity, h * 0.07),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(15),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) => HomeScreen(),
-                              ),
-                              (route) => false,
-                            );
-
-                            cubit.resetQuiz();
-                          },
-                          child: Row(
-                            mainAxisAlignment: .center,
-                            children: [
-                              Icon(Icons.repeat, color: Colors.black),
-
-                              Text(
-                                "Back to Home",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
+                            borderRadius: BorderRadius.circular(16),
+                            side: BorderSide(color: Colors.white.withOpacity(0.5)),
                           ),
                         ),
+                        onPressed: () {
+                          cubit.resetQuiz();
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => const HomeScreen()),
+                            (route) => false,
+                          );
+                        },
+                        child: const Text("Back to Home", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                       ),
-                    ],
-                  )
-                : Column(
-                    children: [
-                      Center(
-                        child: Container(
-                          height: h * .15,
-                          width: w * .3,
-                          decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(.3),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.error_outline,
-                              color: Colors.red,
-                              size: 40,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Text(
-                        "Sorry Try again!",
-                        style: TextStyle(
-                          fontSize: 29,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "You haven't mastered this quiz!",
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
-                      ),
-                      SizedBox(height: h * .09),
-
-                      Container(
-                        height: h * .2,
-                        width: w * .9,
-
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 20,
-                              color: Colors.black,
-                              offset: Offset(1, 5),
-                              spreadRadius: 1,
-                            ),
-                          ],
-                        ),
-
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: w * .06,
-                            vertical: h * .025,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: .start,
-                            children: [
-                              Text(
-                                "Your Score",
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              BlocBuilder<QuizCubit, QuizCubitState>(
-                                builder: (context, state) {
-                                  if (state is QuizLoaded) {
-                                    return Text(
-                                      "${state.score} / 10",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    );
-                                  }
-
-                                  return SizedBox();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      //
-                      Padding(
-                        padding: EdgeInsetsGeometry.symmetric(
-                          horizontal: w * .1,
-                          vertical: h * .028,
-                        ),
-                        child: MaterialButton(
-                          height: h * .08,
-                          color: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(15),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) => QuizScreen(),
-                              ),
-                              (route) => false,
-                            );
-                            cubit.resetQuiz();
-                          },
-                          child: Row(
-                            mainAxisAlignment: .center,
-                            children: [
-                              Icon(Icons.repeat, color: Colors.white),
-
-                              Text(
-                                "Play Again",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      //
-
-                      //
-                      Padding(
-                        padding: EdgeInsetsGeometry.symmetric(
-                          horizontal: w * .1,
-                        ),
-                        child: MaterialButton(
-                          height: h * .08,
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(15),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) => HomeScreen(),
-                              ),
-                              (route) => false,
-                            );
-                            cubit.resetQuiz();
-                          },
-                          child: Row(
-                            mainAxisAlignment: .center,
-                            children: [
-                              Icon(Icons.repeat, color: Colors.black),
-
-                              Text(
-                                "Back to Home",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-          }
-
-          return SizedBox();
-        },
+                    ),
+                    const SizedBox(height: 30),
+                  ],
+                );
+              }
+              return const SizedBox();
+            },
+          ),
+        ),
       ),
     );
   }

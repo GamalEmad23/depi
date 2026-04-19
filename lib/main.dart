@@ -1,6 +1,6 @@
 import 'package:depi_03/core/helper/hive_helper.dart';
-import 'package:depi_03/features/e-commerce/cubit/auth_cubit_cubit.dart';
-import 'package:depi_03/features/e-commerce/view/login_screen.dart';
+import 'package:depi_03/features/quiz_app/cubit/cubit/quiz_cubit_cubit.dart';
+import 'package:depi_03/features/quiz_app/screen/home_screen.dart';
 import 'package:depi_03/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -11,14 +11,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  await Hive.initFlutter(); 
- await Hive.openBox(HiveHelper.tokenBox); 
+  await Hive.initFlutter();
+  await Hive.openBox(HiveHelper.tokenBox);
 
-  FlutterError.onError =FirebaseCrashlytics.instance.recordFlutterError;
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(const MyApp());
 }
 
@@ -27,10 +25,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      home: BlocProvider(
-        create: (context) => AuthCubitCubit(),
-        child: LoginScreen(),
+    return BlocProvider(
+      create: (context) => QuizCubit(),
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: const HomeScreen(),
       ),
     );
   }

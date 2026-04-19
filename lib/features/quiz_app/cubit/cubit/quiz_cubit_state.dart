@@ -5,6 +5,13 @@ sealed class QuizCubitState {}
 
 final class QuizCubitInitial extends QuizCubitState {}
 
+class QuizLoading extends QuizCubitState {}
+
+class QuizError extends QuizCubitState {
+  final String message;
+  QuizError(this.message);
+}
+
 class QuizLoaded extends QuizCubitState {
   final int currentIndex;
   final int score;
