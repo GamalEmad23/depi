@@ -1,0 +1,62 @@
+{
+  "quiz": "اختبار",
+  "retry": "إعادة المحاولة",
+  "question_progress": "السؤال {current}/{total}",
+  "@question_progress": {
+    "placeholders": {
+      "current": {
+        "type": "Object"
+      },
+      "total": {
+        "type": "Object"
+      }
+    }
+  },
+  "score": "النتيجة: {score}",
+  "@score": {
+    "placeholders": {
+      "score": {
+        "type": "Object"
+      }
+    }
+  },
+  "finish_quiz": "إنهاء الاختبار",
+  "next_question": "السؤال التالي",
+  "error_default": "حدث خطأ ما",
+  "app_title": "كويز ماستر",
+  "home_ready": "هل أنت مستعد للتحدي؟",
+  "home_desc": "اختبر معلوماتك في فئات متعددة واحصل على الشارة العالمية!",
+  "start_quiz": "ابدأ الاختبار الآن",
+  "add_question": "إضافة أسئلة",
+  "add_question_title": "إضافة سؤال",
+  "question_label": "السؤال",
+  "required_field": "مطلوب",
+  "answers_label": "الإجابات:",
+  "answer_hint": "الإجابة {number}",
+  "@answer_hint": {
+    "placeholders": {
+      "number": {
+        "type": "Object"
+      }
+    }
+  },
+  "radio_desc": "حدد زر الاختيار بجوار الإجابة الصحيحة.",
+  "save_question": "حفظ السؤال في فايرستور",
+  "success_add": "تم إضافة السؤال بنجاح!",
+  "error_add": "خطأ في إضافة السؤال: {error}",
+  "@error_add": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "awesome_job": "عمل رائع!",
+  "needs_improvement": "بحاجة إلى تحسين",
+  "mastered_desc": "لقد أتقنت هذا الاختبار!",
+  "practice_desc": "استمر في التدريب، ستنجح!",
+  "final_score": "نتيجتك النهائية",
+  "play_again": "العب مرة أخرى",
+  "back_home": "العودة للرئيسية",
+  "change_language": "تغيير اللغة"
+}

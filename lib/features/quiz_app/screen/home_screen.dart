@@ -2,7 +2,9 @@
 
 import 'package:depi_03/features/quiz_app/screen/add_question_screen.dart';
 import 'package:depi_03/features/quiz_app/screen/quiz_screen.dart';
+import 'package:depi_03/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,12 +13,14 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var h = MediaQuery.sizeOf(context).height;
     var w = MediaQuery.sizeOf(context).width;
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text(
-          "QuizMaster",
-          style: TextStyle(
+        title: Text(
+          l10n.app_title,
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -25,6 +29,19 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.language, color: Colors.white),
+            onPressed: () {
+              // Simple language toggle
+              if (Get.locale?.languageCode == 'ar') {
+                Get.updateLocale(const Locale('en'));
+              } else {
+                Get.updateLocale(const Locale('ar'));
+              }
+            },
+          ),
+        ],
       ),
       body: Container(
         width: double.infinity,
@@ -66,20 +83,20 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Column(
-                    children: const [
+                    children: [
                       Text(
-                        "Ready for a challenge?",
-                        style: TextStyle(
+                        l10n.home_ready,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
-                        "Test your knowledge across multiple\ncategories and claim the global badge!",
+                        l10n.home_desc,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white70, fontSize: 16),
+                        style: const TextStyle(color: Colors.white70, fontSize: 16),
                       ),
                     ],
                   ),
@@ -101,9 +118,9 @@ class HomeScreen extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => const QuizScreen()),
                             );
                           },
-                          child: const Text(
-                            "Start Quiz Now",
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          child: Text(
+                            l10n.start_quiz,
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -121,9 +138,9 @@ class HomeScreen extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => const AddQuestionScreen()),
                             );
                           },
-                          child: const Text(
-                            "Add Questions",
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          child: Text(
+                            l10n.add_question,
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                           ),
                         ),
                       ],

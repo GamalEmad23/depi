@@ -1,3 +1,4 @@
+import 'package:depi_03/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -23,6 +24,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _isLoading = true);
 
     try {
@@ -34,12 +36,12 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Question added successfully!'), backgroundColor: Colors.green),
+        SnackBar(content: Text(l10n.success_add), backgroundColor: Colors.green),
       );
       Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding question: $e'), backgroundColor: Colors.red),
+        SnackBar(content: Text(l10n.error_add(e.toString())), backgroundColor: Colors.red),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -48,9 +50,10 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Question', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: Text(l10n.add_question_title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF4A00E0),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -63,11 +66,11 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
             children: [
               TextFormField(
                 controller: _questionController,
-                decoration: const InputDecoration(labelText: 'Question', border: OutlineInputBorder()),
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                decoration: InputDecoration(labelText: l10n.question_label, border: const OutlineInputBorder()),
+                validator: (val) => val == null || val.isEmpty ? l10n.required_field : null,
               ),
               const SizedBox(height: 16),
-              const Text('Answers:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              Text(l10n.answers_label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               const SizedBox(height: 8),
               ...List.generate(4, (index) {
                 return Padding(
@@ -83,8 +86,8 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       Expanded(
                         child: TextFormField(
                           controller: _answerControllers[index],
-                          decoration: InputDecoration(labelText: 'Answer ${index + 1}', border: const OutlineInputBorder()),
-                          validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                          decoration: InputDecoration(labelText: l10n.answer_hint(index + 1), border: const OutlineInputBorder()),
+                          validator: (val) => val == null || val.isEmpty ? l10n.required_field : null,
                         ),
                       ),
                     ],
@@ -92,7 +95,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                 );
               }),
               const SizedBox(height: 16),
-              const Text('Select the radio button next to the correct answer.', style: TextStyle(color: Colors.grey)),
+              Text(l10n.radio_desc, style: const TextStyle(color: Colors.grey)),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _isLoading ? null : _submit,
@@ -102,7 +105,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                child: _isLoading ? const CircularProgressIndicator(color: Colors.white) : const Text('Save Question to Firestore', style: TextStyle(fontSize: 16)),
+                child: _isLoading ? const CircularProgressIndicator(color: Colors.white) : Text(l10n.save_question, style: const TextStyle(fontSize: 16)),
               ),
             ],
           ),

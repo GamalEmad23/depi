@@ -2,6 +2,7 @@
 
 import 'package:depi_03/features/quiz_app/cubit/cubit/quiz_cubit_cubit.dart';
 import 'package:depi_03/features/quiz_app/screen/quiz_result.dart';
+import 'package:depi_03/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -21,7 +22,14 @@ class _QuizScreenState extends State<QuizScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text("Quiz", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24)),
+        title: Text(
+          AppLocalizations.of(context)!.quiz,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
@@ -38,9 +46,11 @@ class _QuizScreenState extends State<QuizScreen> {
           child: BlocBuilder<QuizCubit, QuizCubitState>(
             builder: (context, state) {
               final cubit = context.read<QuizCubit>();
-              
+
               if (state is QuizLoading || state is QuizCubitInitial) {
-                return const Center(child: CircularProgressIndicator(color: Colors.white));
+                return const Center(
+                  child: CircularProgressIndicator(color: Colors.white),
+                );
               }
 
               if (state is QuizError) {
@@ -48,19 +58,32 @@ class _QuizScreenState extends State<QuizScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.error_outline, color: Colors.white, size: 60),
+                      const Icon(
+                        Icons.error_outline,
+                        color: Colors.white,
+                        size: 60,
+                      ),
                       const SizedBox(height: 16),
-                      Text(state.message, style: const TextStyle(color: Colors.white, fontSize: 18), textAlign: TextAlign.center),
+                      Text(
+                        state.message,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                       const SizedBox(height: 24),
                       ElevatedButton(
                         onPressed: () => cubit.fetchQuestions(),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: const Color(0xFF4A00E0),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
-                        child: const Text('Retry'),
-                      )
+                        child: Text(AppLocalizations.of(context)!.retry),
+                      ),
                     ],
                   ),
                 );
@@ -76,12 +99,23 @@ class _QuizScreenState extends State<QuizScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Question ${state.currentIndex + 1}/${cubit.data.length}",
-                            style: const TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.w500),
+                            AppLocalizations.of(context)!.question_progress(
+                              state.currentIndex + 1,
+                              cubit.data.length,
+                            ),
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                           Text(
-                            "Score: ${state.score}",
-                            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                            AppLocalizations.of(context)!.score(state.score),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -90,7 +124,9 @@ class _QuizScreenState extends State<QuizScreen> {
                     LinearPercentIndicator(
                       width: w,
                       lineHeight: 8.0,
-                      percent: cubit.data.isEmpty ? 0 : (state.currentIndex + 1) / cubit.data.length,
+                      percent: cubit.data.isEmpty
+                          ? 0
+                          : (state.currentIndex + 1) / cubit.data.length,
                       linearStrokeCap: LinearStrokeCap.roundAll,
                       backgroundColor: Colors.white.withOpacity(0.2),
                       progressColor: Colors.amber,
@@ -104,7 +140,11 @@ class _QuizScreenState extends State<QuizScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(24),
                         boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 20, spreadRadius: 5),
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 20,
+                            spreadRadius: 5,
+                          ),
                         ],
                       ),
                       child: Column(
@@ -112,7 +152,12 @@ class _QuizScreenState extends State<QuizScreen> {
                         children: [
                           Text(
                             cubit.getCurrentQuestions.question,
-                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF333333), height: 1.3),
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF333333),
+                              height: 1.3,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 30),
@@ -124,12 +169,21 @@ class _QuizScreenState extends State<QuizScreen> {
                                 onTap: () => cubit.selectAnswer(index),
                                 child: AnimatedContainer(
                                   duration: const Duration(milliseconds: 200),
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 16,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: isSelected ? const Color(0xFF4A00E0).withOpacity(0.1) : Colors.grey.shade50,
+                                    color: isSelected
+                                        ? const Color(
+                                            0xFF4A00E0,
+                                          ).withOpacity(0.1)
+                                        : Colors.grey.shade50,
                                     borderRadius: BorderRadius.circular(16),
                                     border: Border.all(
-                                      color: isSelected ? const Color(0xFF4A00E0) : Colors.grey.shade300,
+                                      color: isSelected
+                                          ? const Color(0xFF4A00E0)
+                                          : Colors.grey.shade300,
                                       width: 2,
                                     ),
                                   ),
@@ -140,10 +194,23 @@ class _QuizScreenState extends State<QuizScreen> {
                                         width: 24,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          border: Border.all(color: isSelected ? const Color(0xFF4A00E0) : Colors.grey.shade400, width: 2),
-                                          color: isSelected ? const Color(0xFF4A00E0) : Colors.transparent,
+                                          border: Border.all(
+                                            color: isSelected
+                                                ? const Color(0xFF4A00E0)
+                                                : Colors.grey.shade400,
+                                            width: 2,
+                                          ),
+                                          color: isSelected
+                                              ? const Color(0xFF4A00E0)
+                                              : Colors.transparent,
                                         ),
-                                        child: isSelected ? const Icon(Icons.check, size: 16, color: Colors.white) : null,
+                                        child: isSelected
+                                            ? const Icon(
+                                                Icons.check,
+                                                size: 16,
+                                                color: Colors.white,
+                                              )
+                                            : null,
                                       ),
                                       const SizedBox(width: 16),
                                       Expanded(
@@ -151,8 +218,12 @@ class _QuizScreenState extends State<QuizScreen> {
                                           cubit.getAnswers[index].toString(),
                                           style: TextStyle(
                                             fontSize: 16,
-                                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                            color: isSelected ? const Color(0xFF4A00E0) : Colors.black87,
+                                            fontWeight: isSelected
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                            color: isSelected
+                                                ? const Color(0xFF4A00E0)
+                                                : Colors.black87,
                                           ),
                                         ),
                                       ),
@@ -167,23 +238,35 @@ class _QuizScreenState extends State<QuizScreen> {
                     ),
                     const Spacer(),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.03),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: w * 0.05,
+                        vertical: h * 0.03,
+                      ),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber,
-                          disabledBackgroundColor: Colors.amber.withOpacity(0.5),
+                          disabledBackgroundColor: Colors.amber.withOpacity(
+                            0.5,
+                          ),
                           foregroundColor: Colors.black87,
                           padding: const EdgeInsets.symmetric(vertical: 18),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                           elevation: state.selectedIndex == null ? 0 : 5,
                         ),
                         onPressed: state.selectedIndex == null
                             ? null
                             : () {
                                 cubit.answerQuestion(state.selectedIndex!);
-                                
-                                if (state.currentIndex + 1 == cubit.data.length) {
-                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const QuizResult()));
+
+                                if (state.currentIndex + 1 ==
+                                    cubit.data.length) {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => const QuizResult(),
+                                    ),
+                                  );
                                 } else {
                                   cubit.nextQuestion(state.selectedIndex!);
                                 }
@@ -192,8 +275,15 @@ class _QuizScreenState extends State<QuizScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              (cubit.data.isNotEmpty && state.currentIndex + 1 == cubit.data.length) ? "Finish Quiz" : "Next Question",
-                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              (cubit.data.isNotEmpty &&
+                                      state.currentIndex + 1 ==
+                                          cubit.data.length)
+                                  ? AppLocalizations.of(context)!.finish_quiz
+                                  : AppLocalizations.of(context)!.next_question,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             const SizedBox(width: 8),
                             const Icon(Icons.arrow_forward_rounded),

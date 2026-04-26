@@ -1,0 +1,62 @@
+{
+  "quiz": "Quiz",
+  "retry": "Retry",
+  "question_progress": "Question {current}/{total}",
+  "@question_progress": {
+    "placeholders": {
+      "current": {
+        "type": "Object"
+      },
+      "total": {
+        "type": "Object"
+      }
+    }
+  },
+  "score": "Score: {score}",
+  "@score": {
+    "placeholders": {
+      "score": {
+        "type": "Object"
+      }
+    }
+  },
+  "finish_quiz": "Finish Quiz",
+  "next_question": "Next Question",
+  "error_default": "Something went wrong",
+  "app_title": "QuizMaster",
+  "home_ready": "Ready for a challenge?",
+  "home_desc": "Test your knowledge across multiple categories and claim the global badge!",
+  "start_quiz": "Start Quiz Now",
+  "add_question": "Add Questions",
+  "add_question_title": "Add Question",
+  "question_label": "Question",
+  "required_field": "Required",
+  "answers_label": "Answers:",
+  "answer_hint": "Answer {number}",
+  "@answer_hint": {
+    "placeholders": {
+      "number": {
+        "type": "Object"
+      }
+    }
+  },
+  "radio_desc": "Select the radio button next to the correct answer.",
+  "save_question": "Save Question to Firestore",
+  "success_add": "Question added successfully!",
+  "error_add": "Error adding question: {error}",
+  "@error_add": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "awesome_job": "Awesome Job!",
+  "needs_improvement": "Needs Improvement",
+  "mastered_desc": "You mastered this quiz!",
+  "practice_desc": "Keep practicing, you'll get it!",
+  "final_score": "Your Final Score",
+  "play_again": "Play Again",
+  "back_home": "Back to Home",
+  "change_language": "Change Language"
+}

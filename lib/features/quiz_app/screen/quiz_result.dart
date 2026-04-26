@@ -1,6 +1,7 @@
 import 'package:depi_03/features/quiz_app/cubit/cubit/quiz_cubit_cubit.dart';
 import 'package:depi_03/features/quiz_app/screen/home_screen.dart';
 import 'package:depi_03/features/quiz_app/screen/quiz_screen.dart';
+import 'package:depi_03/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +13,7 @@ class QuizResult extends StatelessWidget {
     final cubit = context.read<QuizCubit>();
     var h = MediaQuery.sizeOf(context).height;
     var w = MediaQuery.sizeOf(context).width;
+    final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -60,7 +62,7 @@ class QuizResult extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
                     Text(
-                      isSuccess ? "Awesome Job!" : "Needs Improvement",
+                      isSuccess ? l10n.awesome_job : l10n.needs_improvement,
                       style: const TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -69,7 +71,7 @@ class QuizResult extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      isSuccess ? "You mastered this quiz!" : "Keep practicing, you'll get it!",
+                      isSuccess ? l10n.mastered_desc : l10n.practice_desc,
                       style: const TextStyle(fontSize: 18, color: Colors.white70),
                     ),
                     const SizedBox(height: 50),
@@ -83,9 +85,9 @@ class QuizResult extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          const Text(
-                            "Your Final Score",
-                            style: TextStyle(color: Colors.white70, fontSize: 18),
+                          Text(
+                            l10n.final_score,
+                            style: const TextStyle(color: Colors.white70, fontSize: 18),
                           ),
                           const SizedBox(height: 10),
                           Row(
@@ -138,7 +140,7 @@ class QuizResult extends StatelessWidget {
                             (route) => false,
                           );
                         },
-                        child: const Text("Play Again", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        child: Text(l10n.play_again, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -160,7 +162,7 @@ class QuizResult extends StatelessWidget {
                             (route) => false,
                           );
                         },
-                        child: const Text("Back to Home", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        child: Text(l10n.back_home, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                       ),
                     ),
                     const SizedBox(height: 30),
